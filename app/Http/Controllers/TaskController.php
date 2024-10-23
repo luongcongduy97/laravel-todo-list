@@ -23,6 +23,14 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
+    public function toggleCompletion(Task $task)
+    {
+        $task->is_completed = !$task->is_completed;
+        $task->save();
+
+        return redirect()->route('tasks.index')->with('success', 'Task status updated successfully!');
+    }
+
     public function update(Request $request, Task $task)
     {
         $request->validate([
