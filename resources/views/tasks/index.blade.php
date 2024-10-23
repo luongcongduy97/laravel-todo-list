@@ -13,15 +13,28 @@
   <div class="container mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded shadow-md">
     <h1 class="text-2xl font-bold mb-6">Task List</h1>
 
+    @if (session('success'))
+    <div class="mb-4 p-4 text-green-800 bg-green-100 rounded dark:bg-green-700 dark:text-green-200">
+      {{ session('success') }}
+    </div>
+    @endif
+
     @if ($tasks->isEmpty())
     <p class="text-gray-700 dark:text-gray-300">No tasks available.</p>
     @else
     <ul class="space-y-4">
       @foreach ($tasks as $task)
       <li class="p-4 bg-gray-100 dark:bg-gray-700 rounded shadow flex justify-between items-center">
-        <div>
-          <h3 class="text-lg font-semibold">{{ $task->name }}</h3>
-          <p class="text-gray-800 dark:text-gray-300">{{ $task->description }}</p>
+        <div class="flex items-center space-x-4">
+          <form action="{{ route('tasks.toggle', $task) }}" method="POST">
+            @csrf
+            @method('PATCH')
+            <input type="checkbox" onchange="this.form.submit()" {{ $task->is_completed ? 'checked' : '' }} class="w-5 h-5 text-blue-500 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500">
+          </form>
+          <div>
+            <h3 class="text-lg font-semibold {{ $task->is_completed ? 'line-through text-gray-500' : '' }}">{{ $task->name }}</h3>
+            <p class="text-gray-800 dark:text-gray-300">{{ $task->description }}</p>
+          </div>
         </div>
         <div class="flex space-x-2">
           <a href="{{ route('tasks.edit', $task) }}" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-500">
