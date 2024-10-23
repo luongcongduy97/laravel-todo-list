@@ -13,11 +13,16 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-    Route::get('/tasks/create', [TaskController::class, 'create'])
+Route::get('/tasks/create', [TaskController::class, 'create'])
     ->middleware(['auth'])
     ->name('tasks.create');
 
 Route::post('/tasks', [TaskController::class, 'store'])
     ->middleware(['auth'])
     ->name('tasks.store');
-require __DIR__.'/auth.php';
+
+Route::get('/tasks', [TaskController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('tasks.index');
+
+require __DIR__ . '/auth.php';
