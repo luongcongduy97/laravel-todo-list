@@ -25,4 +25,16 @@ Route::get('/tasks', [TaskController::class, 'index'])
     ->middleware(['auth'])
     ->name('tasks.index');
 
+Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])
+    ->middleware(['auth'])
+    ->name('tasks.edit');
+
+Route::put('/tasks/{task}', [TaskController::class, 'update'])
+    ->middleware(['auth'])
+    ->name('tasks.update');
+
+Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])
+    ->middleware(['auth'])
+    ->name('tasks.destroy');
+
 require __DIR__ . '/auth.php';

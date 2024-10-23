@@ -18,9 +18,23 @@
     @else
     <ul class="space-y-4">
       @foreach ($tasks as $task)
-      <li class="p-4 bg-gray-100 dark:bg-gray-700 rounded shadow">
-        <h3 class="text-lg font-semibold">{{ $task->name }}</h3>
-        <p class="text-gray-800 dark:text-gray-300">{{ $task->description }}</p>
+      <li class="p-4 bg-gray-100 dark:bg-gray-700 rounded shadow flex justify-between items-center">
+        <div>
+          <h3 class="text-lg font-semibold">{{ $task->name }}</h3>
+          <p class="text-gray-800 dark:text-gray-300">{{ $task->description }}</p>
+        </div>
+        <div class="flex space-x-2">
+          <a href="{{ route('tasks.edit', $task) }}" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-500">
+            Edit
+          </a>
+          <form action="{{ route('tasks.destroy', $task) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" onclick="return confirm('Are you sure you want to delete this task?')" class="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-500">
+              Delete
+            </button>
+          </form>
+        </div>
       </li>
       @endforeach
     </ul>
