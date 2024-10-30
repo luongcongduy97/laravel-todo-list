@@ -9,7 +9,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::orderBy('created_at', 'asc')->get();
         return view('tasks.index', compact('tasks'));
     }
 
@@ -21,14 +21,6 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         return view('tasks.edit', compact('task'));
-    }
-
-    public function toggleCompletion(Task $task)
-    {
-        $task->is_completed = !$task->is_completed;
-        $task->save();
-
-        return redirect()->route('tasks.index')->with('success', 'Task status updated successfully!');
     }
 
     public function update(Request $request, Task $task)
