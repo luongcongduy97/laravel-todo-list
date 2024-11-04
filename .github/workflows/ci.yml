@@ -40,7 +40,10 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress
 
       - name: Copy .env.testing
         run: cp .env.testing .env
+
+      - name: Generate application key
+        run: php artisan key:generate
