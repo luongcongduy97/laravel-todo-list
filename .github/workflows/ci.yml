@@ -34,7 +34,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.0"
+          php-version: "8.2"
           extensions: mbstring, intl, bcmath, pdo_pgsql
           init-values: post_max_size=256M, max_execution_time=300
           coverage: none
@@ -47,3 +47,16 @@ jobs:
 
       - name: Generate application key
         run: php artisan key:generate
+
+      - name: Run databases migration
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: laravel_todo_list_test
+          DB_USERNAME: luongcongduy
+          DB_PASSWORD: password
+        run: php artisan migrate --env=testing
+
+      - name: Run tests
+        run: php artisan test
