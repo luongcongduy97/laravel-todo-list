@@ -30,3 +30,17 @@ jobs:
     steps:
       - name: Checkout Laravel project
         uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.0"
+          extensions: mbstring, intl, bcmath, pdo_pgsql
+          init-values: post_max_size=256M, max_execution_time=300
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Copy .env.testing
+        run: cp .env.testing .env
