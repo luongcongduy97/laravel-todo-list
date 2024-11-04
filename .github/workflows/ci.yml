@@ -42,20 +42,20 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Copy .env.testing
-        run: cp .env.testing .env.testing
+      - name: Create .env.testing
+        run: |
+          cp .env.example .env.testing
+          echo "DB_CONNECTION=pgsql" >> .env.testing
+          echo "DB_HOST=127.0.0.1" >> .env.testing
+          echo "DB_PORT=5432" >> .env.testing
+          echo "DB_DATABASE=laravel_todo_list_test" >> .env.testing
+          echo "DB_USERNAME=luongcongduy" >> .env.testing
+          echo "DB_PASSWORD=password" >> .env.testing
 
       - name: Generate application key
-        run: php artisan key:generate
+        run: php artisan key:generate --env=testing
 
-      - name: Run databases migration
-        env:
-          DB_CONNECTION: pgsql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 5432
-          DB_DATABASE: laravel_todo_list_test
-          DB_USERNAME: luongcongduy
-          DB_PASSWORD: password
+      - name: Run database migrations
         run: php artisan migrate --env=testing
 
       - name: Run tests
