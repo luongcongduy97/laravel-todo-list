@@ -9,6 +9,11 @@ class Task extends Model
 {
     use HasFactory;
 
+    public function subtasks()
+    {
+        return $this->hasMany(Subtask::class);
+    }
+
     protected $fillable = [
         'name',
         'description',

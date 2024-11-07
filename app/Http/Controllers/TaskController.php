@@ -13,6 +13,12 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
+    public function show()
+    {
+        $tasks->load('subtasks');
+        return view('tasks.show', compact('tasks'));
+    }
+
     public function create()
     {
         return view('tasks.create');
